@@ -1,0 +1,77 @@
+"use client";
+
+import React from "react";
+import TodoInput from "@/components/todoComponents/TodoInput";
+import TodoList from "@/components/todoComponents/todoList";
+
+export default class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      todos: [],
+      input: "",
+    };
+  }
+
+  componentDidMount() {
+    console.log("Component is mounted!");
+    const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
+    this.setState({ todos: storedTodos });
+  }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //     console.log("shouldComponentUpdate function is called")
+  //     return true
+  // }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.todos != this.state.todos) {
+      console.log("todos updated");
+      localStorage.setItem("todos", JSON.stringify(this.state.todos));
+    }
+  }
+
+  handleInputChange = (e) => {
+    console.log("input has change");
+    this.setState({ input: e.target.value });
+  };
+
+  addTodo = () => {
+    const { input, todos } = this.state;
+    if (!input.trim()) return;
+    const newTodo = {
+      id: Date.now(),
+      text: input,
+      done: false,
+    };
+
+    this.setState({
+      todos: [...todos, newTodo],
+      input: "",
+    });
+  };
+
+  toggleDone = (id) => {
+    this.setState((prevState) => ({
+      todos: prevState.todos.map((todo) =>
+        todo.id === id ? { ...todo, done: !todo.done } : todo
+      ),
+    }));
+  };
+
+  render() {
+    return (
+      <main className='className="flex min-h-screen flex-col items-center justify-center p-6 bg-gray-100'>
+        <div className="w-full max-w-md space-y-4">
+          <h1 className="text-2xl font-bold text-center">My Todo List</h1>
+          <TodoInput
+            input={this.state.input}
+            setInput={(val) => this.setState({ input: val })}
+            addTodo={this.addTodo}
+          />
+          <TodoList todos={this.state.todos} toggleDone={this.toggleDone}/>
+        </div>
+      </main>
+    );
+  }
+}
