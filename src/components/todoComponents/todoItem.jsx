@@ -1,14 +1,15 @@
-import { useState } from "react";
+"use client"
 
-export default function TodoItem({ todo, toggleDone, deleteTodo, editTodo, index }) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedText, setEditedText] = useState(todo.text);
+import {useTodos} from '@/context/todoContext'
 
-  const handleEditSubmit = () => {
-    if (editedText.trim() === "") return;
-    editTodo(todo.id, editedText);
-    setIsEditing(false);
-  };
+export default function TodoItem({ todo, index }) {
+  const {toggleDone, deleteTodo} = useTodos()
+
+  // const handleEditSubmit = () => {
+  //   if (editedText.trim() === "") return;
+  //   editTodo(todo.id, editedText);
+  //   setIsEditing(false);
+  // };
 
   return (
     <div className="flex items-center justify-between bg-white rouded p-3 shadow-sm">
