@@ -3,7 +3,7 @@
 import {useTodos} from '@/context/todoContext'
 
 export default function TodoItem({ todo, index }) {
-  const {toggleDone, deleteTodo} = useTodos()
+  const {dispatch} = useTodos()
 
   // const handleEditSubmit = () => {
   //   if (editedText.trim() === "") return;
@@ -13,14 +13,14 @@ export default function TodoItem({ todo, index }) {
 
   return (
     <div className="flex items-center justify-between bg-white rouded p-3 shadow-sm">
-      <span onClick={() => toggleDone(todo.id)}       className={`flex items-center justify-between px-4 py-3 rounded-xl shadow-sm transition-all duration-200 ${
+      <span onClick={() => dispatch({type: "TOGGLE_DONE", payload: todo.id})} className={`flex items-center justify-between px-4 py-3 rounded-xl shadow-sm transition-all duration-200 ${
         todo.done
           ? "bg-green-100 text-gray-500 line-through hover:bg-blue-100"
           : " hover:bg-blue-100"
       }`}>
         {`${index}. ${todo.text}`}
       </span>
-      <button onClick={() =>deleteTodo(todo.id, todo.text)} className="ml-3 text-red-500 hover:text-red-700 font-bold">
+      <button onClick={() =>dispatch({type: "DELETE_TODO", payload: todo.id})} className="ml-3 text-red-500 hover:text-red-700 font-bold">
         &times;
       </button>
     </div>
