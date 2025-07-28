@@ -4,7 +4,7 @@ import { TodoProvider } from "@/context/todoContext";
 import TodoList from "@/components/todoComponents/todoList";
 import TodoInput from "@/components/todoComponents/TodoInput";
 
-export default function Home() {
+export default function TodoHome() {
   // const hasTodos = todos.length > 0;
 
   const editTodo = (id, newText) => {
