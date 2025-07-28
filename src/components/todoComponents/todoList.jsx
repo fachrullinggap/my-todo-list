@@ -1,11 +1,24 @@
 "use client"
 
+import {useMemo, useCallback} from 'react'
 import {useTodos} from '@/context/todoContext'
 import TodoItem from '@/components/todoComponents/todoItem'
 
 export default function TodoList() {
 	// const {todos} = useTodos()
-	 const {state} = useTodos()
+	const {state, dispatch} = useTodos()
+
+	const handleDone = useCallback((id)=> {
+		dispatch({type: "TOGGLE_DONE", payload: id})
+	}, [dispatch])
+
+	const hanldeDelete = useCallback((id)=> {
+		dispatch({type: "DELETE_TODO", payload: id})
+	}, [dispatch])
+
+	const doneCount = useMemo(() => {
+		return state.todos.filter((todo) => todo.done).length;
+	}, [state.todos])
 
 	const hasTodos = state.todos.length > 0;
 
@@ -19,8 +32,9 @@ export default function TodoList() {
 
 	return (
 		<ul className='space-y-2'>
+			<p>{doneCount} task completed</p>
 			{state.todos.map((todo, index) => (
-					<TodoItem key={todo.id} todo={todo} index={index+1}/>
+					<TodoItem key={todo.id} todo={todo} index={index+1} onDone={handleDone} onDelete={hanldeDelete}/>
 				))}
 		</ul>
 	)
