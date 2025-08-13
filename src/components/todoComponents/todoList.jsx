@@ -5,8 +5,9 @@ import {useTodos} from '@/context/todoContext'
 import TodoItem from '@/components/todoComponents/todoItem'
 
 export default function TodoList() {
-	// const {todos} = useTodos()
 	const {state, dispatch} = useTodos()
+	const {todos, loading, error} = state
+	console.log(todos)
 
 	const handleDone = useCallback((id)=> {
 		dispatch({type: "TOGGLE_DONE", payload: id})
@@ -17,8 +18,8 @@ export default function TodoList() {
 	}, [dispatch])
 
 	const doneCount = useMemo(() => {
-		return state.todos.filter((todo) => todo.done).length;
-	}, [state.todos])
+		return todos.filter((todo) => todo.done).length;
+	}, [todos])
 
 	const hasTodos = state.todos.length > 0;
 
