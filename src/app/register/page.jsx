@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { TextField, Button, Box, Typography, Link } from "@mui/material";
+import { TextField, Button, Box, Typography, MenuItem } from "@mui/material";
 
-export default function Login() {
+export default function Home() {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
+    email: "",
+    role: "admin", // Default role
   });
 
   const handleChange = (e) => {
@@ -17,7 +19,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:4000/api/user/login", {
+      const response = await fetch("http://localhost:4000/api/user/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,13 +30,13 @@ export default function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        alert(`Success: ${data.message}\n${JSON.stringify(data.data)}`);
+        alert(`Success: ${data.message}`);
       } else {
-        alert(`Error: ${data.message}\n${JSON.stringify(data.data)}`);
+        alert(`Error: ${data.data}`);
       }
     } catch (error) {
       console.error(error);
-      alert("An error occurred while logging in.");
+      alert("An error occurred while registering the user.");
     }
   };
 
@@ -56,7 +58,7 @@ export default function Login() {
         }}
       >
         <Typography variant="h5" component="h1" textAlign="center">
-          Login
+          Register
         </Typography>
         <TextField
           label="Username"
@@ -77,19 +79,37 @@ export default function Login() {
           value={formData.password}
           onChange={handleChange}
         />
+        <TextField
+          label="Email"
+          name="email"
+          type="email"
+          variant="outlined"
+          fullWidth
+          required
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <TextField
+          select
+          label="Role"
+          name="role"
+          variant="outlined"
+          fullWidth
+          required
+          value={formData.role}
+          onChange={handleChange}
+        >
+          <MenuItem value="admin">Admin</MenuItem>
+          <MenuItem value="user">User</MenuItem>
+        </TextField>
         <Button
           variant="contained"
           color="primary"
           type="submit"
           fullWidth
         >
-          Login
+          Register
         </Button>
-        <Typography variant="body2" textAlign="center">
-          <Link href="/register" underline="hover">
-            Register User
-          </Link>
-        </Typography>
       </Box>
     </div>
   );
