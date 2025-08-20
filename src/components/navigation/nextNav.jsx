@@ -10,6 +10,7 @@ const navItems = [
   { label: "Hello", href: "/hello" },
   { label: "Form", href: "/form" },
   { label: "Bubling", href: "/bubling" },
+  { label: "Counter", href: "/counter" },
 ];
 
 export default function Nextnav() {
