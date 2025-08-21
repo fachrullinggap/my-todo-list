@@ -19,7 +19,7 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:4000/api/user/create", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
